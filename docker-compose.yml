@@ -1,0 +1,14 @@
+version: "2"
+services:
+  server:
+    build: ./server
+    image: jakhrkal/snake-server
+    ports:
+      - "9000:9000"
+  webapp:
+    build: ./client
+    image: jakhrkal/snake-client
+    ports:
+      - "8080:80"
+    depends_on: 
+      - server
