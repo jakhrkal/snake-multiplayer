@@ -15,7 +15,7 @@ class Game {
             this.spawnCoin();
             this.updateArena();
             this.broadcastState();
-        }, 500);
+        }, 400);
     }
 
     broadcastState() {

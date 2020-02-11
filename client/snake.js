@@ -1,3 +1,5 @@
+const COLORS = ['Chocolate', 'CornflowerBlue', 'Chartreuse', 'Purple', 'DarkRed', 'DarkBlue', 'DarkGreen', 'Crimson', ]
+
 class Snake {
 
     constructor(document) {
@@ -7,14 +9,14 @@ class Snake {
         this.context.scale(20, 20);
         this.context.fillStyle = '#000';
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.playerColors = new Map();
     }
 
     updateState(state) {
         state.forEach((col, y) => {
             col.forEach((cell, x) => {
-                // todo colors
                 if (!cell) {
-                    this.context.fillStyle = '#000';
+                    this.context.fillStyle = '#010';
                 } else {
                     switch (cell.type) {
                         case 'PLAYER':
@@ -32,13 +34,9 @@ class Snake {
     }
 
     colorFromId(id) {
-        // todo improve color-generating (array of pre-defined colors)
-        let hash = id.split('').reduce((accumulator, currentValue) => accumulator + currentValue.charCodeAt(0), '');
-        let hashSum = parseInt(hash.split('').reduce((accumulator, currentValue) => accumulator + currentValue.charCodeAt(0), 0));
-        let r = hashSum % 256;
-        let g = (hashSum * 2) % 256;
-        let b = (hashSum * 3) % 256;
-
-        return `rgb(${r}, ${g}, ${b})`;
+        if (!this.playerColors.has(id)) {
+            this.playerColors.set(id, COLORS[this.playerColors.size % COLORS.length]);
+        }
+        return this.playerColors.get(id);
     }
 }
