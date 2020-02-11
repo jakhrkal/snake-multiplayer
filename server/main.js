@@ -1,6 +1,6 @@
 const WebSocketServer = require('ws').Server;
 const Game = require('./game');
-const Client = require('./client');
+const Player = require('./player');
 
 const server = new WebSocketServer({port: 9000});
 
@@ -15,7 +15,7 @@ function createId(len = 4, chars = 'abcdefghjkmnopqrstvwxyz01234567890') {
 }
 
 function createClient(conn, id = createId()) {
-    return new Client(conn, id);
+    return new Player(conn, id);
 }
 
 function createGame(id = createId()) {

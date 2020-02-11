@@ -1,25 +1,20 @@
+const START_DIRECTION = 'RIGHT';
 const START_LENGTH = 4;
-const START_DIRECTION = 'RIGHT'
 
-class Client {
+class Player {
 
     constructor(conn, id) {
         this.conn = conn;
         this.id = id;
         this.session = null;
 
-        // todo choose color
-        this.color = '#0F0'
-        // todo use length
         this.length = null;
         this.direction = null;
         this.body = [];
-        this.restart();
     }
 
-    kill() {
-        console.log("Player " + this.id + "died.");
-        this.restart();
+    eat(coin) {
+        this.length += coin.value;
     }
 
     move() {
@@ -38,22 +33,24 @@ class Client {
                 this.coordinates.x--;
                 break;
         }
-        this.body.push(Object.assign({}, this.coordinates));
+        this.body.unshift(Object.assign({}, this.coordinates));
+        while (this.body.length > this.length) {
+            this.body.pop();
+        }
     }
 
-    restart() {
-        // todo choose start position
-        this.coordinates = { x: 5, y: 5 };
+    restart(coordinates) {
+        this.coordinates = { x: coordinates.x, y: coordinates.y };
         this.body = [];
+        this.body.unshift(Object.assign({}, this.coordinates));
         this.length = START_LENGTH;
         this.direction = START_DIRECTION;
     }
 
-
     // todo move away
     send(data) {
         const msg = JSON.stringify(data);
-        console.log(`Sending message ${msg}`);
+        console.log('Sending message', msg);
         this.conn.send(msg, function ack(err) {
             if (err) {
                 console.log('Error sending message', msg, err);
@@ -66,4 +63,4 @@ class Client {
     }
 }
 
-module.exports = Client;
+module.exports = Player;
