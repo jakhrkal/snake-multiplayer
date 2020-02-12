@@ -1,5 +1,5 @@
 const ARENA_SIZE = 20;
-const MAX_COIN_COUNT = 1;
+const MAX_COIN_COUNT = 2;
 
 class Game {
     constructor(id) {

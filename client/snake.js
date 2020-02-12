@@ -6,9 +6,6 @@ class Snake {
         this.document = document;
         this.canvas = this.document.getElementById('game');
         this.context = this.canvas.getContext('2d');
-        this.context.scale(20, 20);
-        this.context.fillStyle = '#000';
-        this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
         this.playerColors = new Map();
     }
 

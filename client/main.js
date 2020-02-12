@@ -2,13 +2,6 @@ const snake = new Snake(document);
 const connectionManager = new ConnectionManager(snake);
 connectionManager.connect('ws://' + window.location.hostname + ':9000');
 
-function sendDirection(direction) {
-    connectionManager.send({
-        type: 'direction-update',
-        direction: direction
-    });
-}
-
 const gesture = new Gesture(document);
 gesture.listenForGestures(direction => {
     switch (direction) {
@@ -50,3 +43,23 @@ const keyListener = (event) => {
 };
 
 document.addEventListener('keydown', keyListener);
+window.addEventListener('resize', resizeCanvas, false);
+window.addEventListener('orientationchange', resizeCanvas, false);
+resizeCanvas();
+
+
+function sendDirection(direction) {
+    connectionManager.send({
+        type: 'direction-update',
+        direction: direction
+    });
+}
+
+
+function resizeCanvas() {
+    canvas = document.getElementById('game');
+    context = canvas.getContext('2d');
+    const scale = Math.floor(Math.min(window.innerWidth, window.innerHeight) * 0.95 / 20);
+    canvas.width = canvas.height = scale * 20;
+    context.scale(scale, scale);
+  }

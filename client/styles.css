@@ -1,9 +1,7 @@
 body {
     background-color: lightslategrey;
-}
-
-#view {
     text-align: center;
+    touch-action: none; /*Disable double tap zoom*/
 }
 
 #game {
