@@ -18,7 +18,6 @@ class Player {
     }
 
     move() {
-        // todo ignore opposite direction
         switch (this.direction) {
             case "UP":
                 this.coordinates.y--;
@@ -32,6 +31,8 @@ class Player {
             case "LEFT":
                 this.coordinates.x--;
                 break;
+            default:
+                console.warn('Unknown direction ' + this.direction);
         }
         this.body.unshift(Object.assign({}, this.coordinates));
         while (this.body.length > this.length) {
@@ -59,7 +60,10 @@ class Player {
     }
 
     updateDirection(direction) {
-        this.direction = direction;
+        if (!(['LEFT', 'RIGHT'].includes(direction) && ['LEFT', 'RIGHT'].includes(this.direction)) &&
+            !(['UP', 'DOWN'].includes(direction) && ['UP', 'DOWN'].includes(this.direction))) {
+            this.direction = direction;
+        }
     }
 }
 

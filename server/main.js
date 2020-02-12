@@ -56,7 +56,7 @@ server.on('connection', conn => {
         } else if (data.type === 'direction-update') {
             client.updateDirection(data.direction);
         } else {
-            throw new Error("Unknown message type " + data.type);
+            console.warn('Unknown message type ' + data.type);
         }
 
     });

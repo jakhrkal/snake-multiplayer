@@ -2,17 +2,30 @@ const snake = new Snake(document);
 const connectionManager = new ConnectionManager(snake);
 connectionManager.connect('ws://' + window.location.hostname + ':9000');
 
-// todo
-// const gesture = new Gesture(document);
-// gesture.subscribe(document, direction => movePlayer(direction));
-// listenForGestures(tetrisLocal.element, movePlayer);
-
 function sendDirection(direction) {
     connectionManager.send({
         type: 'direction-update',
         direction: direction
     });
 }
+
+const gesture = new Gesture(document);
+gesture.listenForGestures(direction => {
+    switch (direction) {
+        case GestureType.UP:
+            sendDirection('UP');
+            break;
+        case GestureType.RIGHT:
+            sendDirection('RIGHT');
+            break;
+        case GestureType.DOWN:
+            sendDirection('DOWN');
+            break;
+        case GestureType.LEFT:
+            sendDirection('LEFT');
+            break;
+    }
+});
 
 const keyListener = (event) => {
     switch (event.keyCode) {

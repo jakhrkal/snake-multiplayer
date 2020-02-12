@@ -26,7 +26,6 @@ class ConnectionManager {
                 type: 'join-game',
                 id: sessionId
             });
-            document.getElementById('room-id').innerText = sessionId;
         } else {
             this.send({
                 type: 'create-game'
@@ -38,7 +37,6 @@ class ConnectionManager {
         const data = JSON.parse(msg);
         if (data.type === 'game-created') {
             window.location.hash = data.id;
-            document.getElementById('room-id').innerText = data.id;
         } else if (data.type === 'state-update') {
             console.log('Updating state.')
             this.snake.updateState(data.state);
