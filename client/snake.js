@@ -1,4 +1,4 @@
-const COLORS = ['Chocolate', 'CornflowerBlue', 'Chartreuse', 'Purple', 'DarkRed', 'DarkBlue', 'DarkGreen', 'Crimson', ]
+const COLORS = ['Chocolate', 'CornflowerBlue', 'Chartreuse', 'Purple', 'DarkRed', 'DarkBlue', 'DarkGreen', 'Crimson',]
 
 class Snake {
 
@@ -6,11 +6,12 @@ class Snake {
         this.document = document;
         this.canvas = this.document.getElementById('game');
         this.context = this.canvas.getContext('2d');
+
         this.playerColors = new Map();
     }
 
-    updateState(state) {
-        state.forEach((col, y) => {
+    updateState(data) {
+        data.state.forEach((col, y) => {
             col.forEach((cell, x) => {
                 if (!cell) {
                     this.context.fillStyle = '#010';
@@ -27,6 +28,12 @@ class Snake {
                 }
                 this.context.fillRect(x, y, 1, 1);
             });
+        });
+
+        data.scores.forEach((item, index) => {
+            // tap = toggle display score
+            this.context.fillStyle = this.colorFromId(item.id);
+            this.context.fillText(item.score, 0, index);
         });
     }
 

@@ -61,5 +61,7 @@ function resizeCanvas() {
     context = canvas.getContext('2d');
     const scale = Math.floor(Math.min(window.innerWidth, window.innerHeight) * 0.95 / 20);
     canvas.width = canvas.height = scale * 20;
+    context.font = "1px Comic Sans MS";
+    context.textBaseline = "top";
     context.scale(scale, scale);
   }

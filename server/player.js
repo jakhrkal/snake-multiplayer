@@ -11,10 +11,12 @@ class Player {
         this.length = null;
         this.direction = null;
         this.body = [];
+        this.score = 0;
     }
 
     eat(coin) {
         this.length += coin.value;
+        this.score += coin.value;
     }
 
     move() {
@@ -46,6 +48,7 @@ class Player {
         this.body.unshift(Object.assign({}, this.coordinates));
         this.length = START_LENGTH;
         this.direction = START_DIRECTION;
+        this.score = Math.floor(this.score / 2);
     }
 
     // todo move away

@@ -4,7 +4,7 @@ const MAX_COIN_COUNT = 2;
 class Game {
     constructor(id) {
         this.id = id;
-        this.players = new Set;
+        this.players = [];
         this.coins = [];
         this.arena = Array.from(Array(ARENA_SIZE), () => new Array(ARENA_SIZE));
         this.coinCount = 0;
@@ -21,7 +21,13 @@ class Game {
     broadcastState() {
         this.players.forEach(player => player.send({
             type: 'state-update',
-            state: this.arena
+            state: this.arena,
+            scores: this.players.map(player => {
+                return {
+                    id: player.id,
+                    score: player.score
+                }
+            })
         }));
     }
 
@@ -70,7 +76,7 @@ class Game {
         if (client.session) {
             throw new Error('Client already in session');
         }
-        this.players.add(client);
+        this.players.push(client);
         client.session = this;
         client.restart(this.emptyCoordinates(1));
     }
@@ -79,7 +85,7 @@ class Game {
         if (client.session !== this) {
             throw new Error('Client not in session');
         }
-        this.players.delete(client);
+        this.players = this.players.filter(player => player.id != client.id);
         client.session = null;
     }
 
