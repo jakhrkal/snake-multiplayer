@@ -1,13 +1,22 @@
 const ARENA_SIZE = 20;
 const MAX_COIN_COUNT = 2;
+const WALL_SHAPES = [
+    [{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }], // I
+    [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }], // _
+    [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 1 }], // square
+    [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 }], // T
+    [{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 1, y: 2 }, { x: 2, y: 2 }], // L
+]
 
 class Game {
     constructor(id) {
         this.id = id;
         this.players = [];
         this.coins = [];
+        this.walls = [];
         this.arena = Array.from(Array(ARENA_SIZE), () => new Array(ARENA_SIZE));
         this.coinCount = 0;
+        this.buildWalls();
 
         setInterval(() => {
             this.players.forEach(player => player.move());
@@ -31,17 +40,37 @@ class Game {
         }));
     }
 
+    buildWalls(wallCount = 5) {
+        for (let i = 0; i < wallCount; i++) {
+            let coords = this.randomCoordinates();
+            this.buildWall(coords);
+        }
+    }
+
+    buildWall(coords) {
+        let wallIdx = this.getRandomInt(0, WALL_SHAPES.length - 1);
+        let wallShape = WALL_SHAPES[wallIdx];
+        wallShape.forEach(piece => {
+            if (coords.y + piece.y < ARENA_SIZE && coords.x + piece.x < ARENA_SIZE) {
+                this.walls.push({ x: coords.x + piece.x, y: coords.y + piece.y });
+            }
+        });
+    }
+
     emptyCoordinates(padding = 0) {
         let found = false;
-        let xCoord, yCoord;
+        let res;
         while (!found) {
-            xCoord = this.getRandomInt(padding, ARENA_SIZE - padding - 1);
-            yCoord = this.getRandomInt(padding, ARENA_SIZE - padding - 1);
-            if (!this.arena[yCoord][xCoord]) {
+            res = this.randomCoordinates(padding);
+            if (!this.arena[res.y][res.x]) {
                 found = true;
             }
         }
-        return { x: xCoord, y: yCoord };
+        return res;
+    }
+
+    randomCoordinates(padding = 0) {
+        return { x: this.getRandomInt(padding, ARENA_SIZE - padding - 1), y: this.getRandomInt(padding, ARENA_SIZE - padding - 1) };
     }
 
     checkCollisions() {
@@ -52,6 +81,7 @@ class Game {
             } else if (this.arena[player.coordinates.y][player.coordinates.x]) {
                 switch (this.arena[player.coordinates.y][player.coordinates.x].type) {
                     case 'PLAYER':
+                    case 'WALL':
                         player.restart(this.emptyCoordinates(1));
                         break;
                     case 'COIN':
@@ -116,6 +146,11 @@ class Game {
             this.arena[coin.coordinates.y][coin.coordinates.x] = {
                 type: 'COIN',
                 value: coin.value
+            };
+        });
+        this.walls.forEach(wall => {
+            this.arena[wall.y][wall.x] = {
+                type: 'WALL'
             };
         });
     }

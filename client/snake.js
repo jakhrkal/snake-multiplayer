@@ -23,7 +23,11 @@ class Snake {
                         case 'COIN':
                             this.context.fillStyle = 'gold'
                             break;
-
+                        case 'WALL':
+                            this.context.fillStyle = 'red'
+                            break;
+                        default:
+                            console.warn('Unknown cell.', cell);
                     }
                 }
                 this.context.fillRect(x, y, 1, 1);
