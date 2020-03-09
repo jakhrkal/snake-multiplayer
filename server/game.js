@@ -1,5 +1,6 @@
 const ARENA_SIZE = 20;
 const MAX_COIN_COUNT = 2;
+const WALL_COUNT = 8;
 const WALL_SHAPES = [
     [{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }], // I
     [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }], // _
@@ -16,7 +17,7 @@ class Game {
         this.walls = [];
         this.arena = Array.from(Array(ARENA_SIZE), () => new Array(ARENA_SIZE));
         this.coinCount = 0;
-        this.buildWalls();
+        this.buildWalls(WALL_COUNT);
 
         setInterval(() => {
             this.players.forEach(player => player.move());
@@ -40,7 +41,7 @@ class Game {
         }));
     }
 
-    buildWalls(wallCount = 5) {
+    buildWalls(wallCount = WALL_COUNT) {
         for (let i = 0; i < wallCount; i++) {
             let coords = this.randomCoordinates();
             this.buildWall(coords);
