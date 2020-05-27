@@ -1,5 +1,7 @@
 const snake = new Snake(document);
 const connectionManager = new ConnectionManager(snake);
+// Todo make it work in Gitpod environment
+// Current workaroud: manually insert direct address after starting server (e.g. https://9000-a7729ac2-99c2-4987-9986-f30a3d053b81.ws-eu01.gitpod.io/)
 connectionManager.connect('ws://' + window.location.hostname + ':9000');
 
 const gesture = new Gesture(document);

@@ -35,6 +35,7 @@ function getGame(id) {
     return games.get(id);
 }
 
+console.log('Creating server')
 server.on('connection', conn => {
     console.log('Connection established');
     const client = createClient(conn);
