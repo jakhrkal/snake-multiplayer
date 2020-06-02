@@ -1,8 +1,14 @@
 const snake = new Snake(document);
 const connectionManager = new ConnectionManager(snake);
-// Todo make it work in Gitpod environment
-// Current workaroud: manually insert direct address after starting server (e.g. https://9000-a7729ac2-99c2-4987-9986-f30a3d053b81.ws-eu01.gitpod.io/)
-connectionManager.connect('ws://' + window.location.hostname + ':9000');
+try {
+    // For local development/running on the same server
+    connectionManager.connect('ws://' + window.location.hostname + ':9000');
+} catch(err) {
+    // For Gitpod.io development
+    console.warn(err);
+    let address = window.location.hostname.replace('8080', '9000');
+    connectionManager.connect('wss://' + address);
+}
 
 const gesture = new Gesture(document);
 gesture.listenForGestures(direction => {
