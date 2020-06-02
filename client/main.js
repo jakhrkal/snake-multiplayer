@@ -1,6 +1,14 @@
 const snake = new Snake(document);
 const connectionManager = new ConnectionManager(snake);
-connectionManager.connect('ws://' + window.location.hostname + ':9000');
+try {
+    // For local development/running on the same server
+    connectionManager.connect('ws://' + window.location.hostname + ':9000');
+} catch(err) {
+    // For Gitpod.io development
+    console.warn(err);
+    let address = window.location.hostname.replace('8080', '9000');
+    connectionManager.connect('wss://' + address);
+}
 
 const gesture = new Gesture(document);
 gesture.listenForGestures(direction => {
