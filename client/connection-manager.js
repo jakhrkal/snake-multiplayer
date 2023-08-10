@@ -38,7 +38,7 @@ class ConnectionManager {
         if (data.type === 'game-created') {
             window.location.hash = data.id;
         } else if (data.type === 'state-update') {
-            console.log('Updating state.')
+            console.log('Updating state.');
             this.snake.updateState(data);
         }
     }

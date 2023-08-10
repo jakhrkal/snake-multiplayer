@@ -1,6 +1,6 @@
-const ARENA_SIZE = 20;
-const MAX_COIN_COUNT = 2;
-const WALL_COUNT = 8;
+const ARENA_SIZE = 30;
+const MAX_COIN_COUNT = 3;
+const WALL_COUNT = 15;
 const WALL_SHAPES = [
     [{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }], // I
     [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }], // _

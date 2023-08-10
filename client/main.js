@@ -1,5 +1,7 @@
 const snake = new Snake(document);
 const connectionManager = new ConnectionManager(snake);
+let gameSize = 30;
+
 try {
     // For local development/running on the same server
     connectionManager.connect('ws://' + window.location.hostname + ':9000');
@@ -63,12 +65,18 @@ function sendDirection(direction) {
     });
 }
 
+// todo set game size dynamically on game init
+function setGameSize(size) {
+    gameSize = size;
+    resizeCanvas();
+}
 
 function resizeCanvas() {
+    console.log('Game size:', gameSize);
     canvas = document.getElementById('game');
     context = canvas.getContext('2d');
-    const scale = Math.floor(Math.min(window.innerWidth, window.innerHeight) * 0.95 / 20);
-    canvas.width = canvas.height = scale * 20;
+    const scale = Math.floor(Math.min(window.innerWidth, window.innerHeight) * 0.95 / gameSize);
+    canvas.width = canvas.height = scale * gameSize;
     context.font = "1px Comic Sans MS";
     context.textBaseline = "top";
     context.scale(scale, scale);

@@ -1,4 +1,4 @@
-const COLORS = ['Chocolate', 'CornflowerBlue', 'Chartreuse', 'Purple', 'DarkRed', 'DarkBlue', 'DarkGreen', 'Crimson',]
+const COLORS = ['CornflowerBlue', 'LimeGreen', 'Violet', 'LemonChiffon', 'DarkBlue', 'DarkGreen', 'DarkViolet', 'DarkKhaki',]
 
 class Snake {
 
@@ -21,10 +21,10 @@ class Snake {
                             this.context.fillStyle = this.colorFromId(cell.id);
                             break;
                         case 'COIN':
-                            this.context.fillStyle = 'gold'
+                            this.context.fillStyle = 'gold';
                             break;
                         case 'WALL':
-                            this.context.fillStyle = 'red'
+                            this.context.fillStyle = 'DarkRed';
                             break;
                         default:
                             console.warn('Unknown cell.', cell);
