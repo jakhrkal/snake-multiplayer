@@ -1,13 +1,14 @@
-FROM node:8
+FROM node:14
 
 # Create app directory
 WORKDIR /usr/src/app
 
-# Install websocket dependency
-RUN npm install ws
-
 # Bundle app source
 COPY . .
+
+RUN npm install && npm install typescript -g
+
+RUN tsc
 
 # Expose the port where server listens
 EXPOSE 9000

@@ -5,6 +5,11 @@ const THRESHOLD_DISTANCE = 50;
 
 class Gesture {
 
+    private gestStart: any;
+    private gestEnd: any;
+    private gestTracking: any;
+    private element: any;
+
     constructor(element) {
         this.gestStart = {};
         this.gestEnd = {};

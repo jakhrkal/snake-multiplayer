@@ -1,6 +1,7 @@
-const WebSocketServer = require('ws').Server;
-const Game = require('./game');
-const Player = require('./player');
+// const WebSocketServer = require('ws').Server;
+import WebSocket, { WebSocketServer } from 'ws';
+import { Player } from './player';
+import Game from './game';
 
 const server = new WebSocketServer({port: 9000});
 
@@ -67,7 +68,7 @@ server.on('connection', conn => {
         const game = client.session;
         if (game) {
             game.leave(client);
-            if (game.players.size === 0) {
+            if (game.players.length === 0) {
                 games.delete(game.id);
             }
         }

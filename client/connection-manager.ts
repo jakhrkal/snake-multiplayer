@@ -1,6 +1,12 @@
-class ConnectionManager {
+import { MessageType } from "../interface/types";
+import { Snake } from "./snake";
 
-    constructor(snake) {
+export class ConnectionManager {
+
+    private conn: WebSocket | null;
+    private snake: Snake;
+
+    constructor(snake: Snake) {
         this.conn = null;
         this.snake = snake;
     }
@@ -37,7 +43,7 @@ class ConnectionManager {
         const data = JSON.parse(msg);
         if (data.type === 'game-created') {
             window.location.hash = data.id;
-        } else if (data.type === 'state-update') {
+        } else if (data.type === MessageType.STATE_UPDATE) {
             console.log('Updating state.');
             this.snake.updateState(data);
         }
@@ -46,6 +52,6 @@ class ConnectionManager {
     send(data) {
         const msg = JSON.stringify(data);
         console.log('Sending message', msg);
-        this.conn.send(msg);
+        this.conn?.send(msg);
     }
 }

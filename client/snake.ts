@@ -1,12 +1,16 @@
 const COLORS = ['CornflowerBlue', 'LimeGreen', 'Violet', 'LemonChiffon', 'DarkBlue', 'DarkGreen', 'DarkViolet', 'DarkKhaki',]
 
-class Snake {
+export class Snake {
+
+    private document: any
+    private canvas: any
+    private context: any
+    private playerColors: any
 
     constructor(document) {
         this.document = document;
         this.canvas = this.document.getElementById('game');
         this.context = this.canvas.getContext('2d');
-
         this.playerColors = new Map();
     }
 

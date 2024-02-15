@@ -1,6 +1,10 @@
+import { Coords, MessageType } from "../interface/types";
+import { Player } from "./player";
+
 const ARENA_SIZE = 30;
 const MAX_COIN_COUNT = 3;
 const WALL_COUNT = 15;
+const GAME_SPEED = 400;
 const WALL_SHAPES = [
     [{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }], // I
     [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }], // _
@@ -10,6 +14,15 @@ const WALL_SHAPES = [
 ]
 
 class Game {
+
+    id: any;
+    players: Player[] = [];
+    
+    private coins: any[] = [];
+    private walls: Coords[] = [];
+    private arena = Array.from(Array(ARENA_SIZE), () => new Array(ARENA_SIZE));
+    private coinCount = 0;
+
     constructor(id) {
         this.id = id;
         this.players = [];
@@ -25,12 +38,12 @@ class Game {
             this.spawnCoin();
             this.updateArena();
             this.broadcastState();
-        }, 400);
+        }, GAME_SPEED);
     }
 
     broadcastState() {
         this.players.forEach(player => player.send({
-            type: 'state-update',
+            type: MessageType.STATE_UPDATE,
             state: this.arena,
             scores: this.players.map(player => {
                 return {
@@ -157,4 +170,4 @@ class Game {
     }
 }
 
-module.exports = Game;
+export default Game;

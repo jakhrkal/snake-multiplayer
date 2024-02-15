@@ -1,15 +1,27 @@
+import { Coords } from "../interface/types";
+import Game from "./game";
+
 const START_DIRECTION = 'RIGHT';
 const START_LENGTH = 4;
 
-class Player {
+export class Player {
+
+    id;
+    score = 0;
+    body: Coords[] = [];
+    coordinates: Coords;
+    direction = START_DIRECTION;
+    session: Game; 
+
+    private conn ;
+    private length = 0;
 
     constructor(conn, id) {
         this.conn = conn;
         this.id = id;
-        this.session = null;
 
-        this.length = null;
-        this.direction = null;
+        this.length = 0;
+        this.direction = START_DIRECTION;
         this.body = [];
         this.score = 0;
     }
@@ -69,5 +81,3 @@ class Player {
         }
     }
 }
-
-module.exports = Player;
