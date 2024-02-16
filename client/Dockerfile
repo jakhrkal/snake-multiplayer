@@ -1,12 +1,13 @@
-#FROM is the base image for which we will run our application
-FROM nginx:latest
-
-RUN npm install && npm install typescript -g
-
-# Copy files and directories from the application
-COPY . /usr/share/nginx/html
-
+# Build
+FROM node:16 as build
+WORKDIR /home/node/app
+COPY ./client ./client
+COPY ./interface ./interface
+WORKDIR /home/node/app/client
+RUN npm install && npm install -g typescript
 RUN tsc
 
-# Tell Docker we are going to use this port
+#Run
+FROM nginx:latest
+COPY --from=build /home/node/app/client/build /usr/share/nginx/html/
 EXPOSE 80

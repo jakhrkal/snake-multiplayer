@@ -1,7 +1,7 @@
-// const WebSocketServer = require('ws').Server;
-import WebSocket, { WebSocketServer } from 'ws';
-import { Player } from './player';
-import Game from './game';
+import pkg from 'ws';
+const { WebSocketServer } = pkg
+import { Player } from './player.js';
+import Game from './game.js';
 
 const server = new WebSocketServer({port: 9000});
 
@@ -43,7 +43,7 @@ server.on('connection', conn => {
 
     conn.on('message', msg => {
         console.log('Message received', msg);
-        const data = JSON.parse(msg);
+        const data = JSON.parse(msg as any);
 
         if (data.type === 'create-game') {
             const game = createGame();

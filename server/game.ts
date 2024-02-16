@@ -1,5 +1,6 @@
-import { Coords, MessageType } from "../interface/types";
-import { Player } from "./player";
+import { Coords } from "../interface/coords.js";
+import { MessageType } from "../interface/message-type.js";
+import { Player } from "./player.js";
 
 const ARENA_SIZE = 30;
 const MAX_COIN_COUNT = 3;

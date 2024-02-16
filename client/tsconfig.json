@@ -1,8 +1,9 @@
 {
     "compilerOptions": {
-      "outDir": "./built",
+      "outDir": "./build",
       "allowJs": true,
-      "target": "es2022"
+      "target": "es2022",
+      "moduleResolution":"node"
     },
     "include": ["./**/*", "../interface/**/*"]
   }

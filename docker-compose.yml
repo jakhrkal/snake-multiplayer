@@ -1,12 +1,16 @@
 version: "2"
 services:
   server:
-    build: ./server
+    build:
+      context: ./
+      dockerfile: ./server/Dockerfile
     image: jakhrkal/snake-server
     ports:
       - "9000:9000"
   webapp:
-    build: ./client
+    build:
+      context: ./
+      dockerfile: ./client/Dockerfile
     image: jakhrkal/snake-client
     ports:
       - "8080:80"

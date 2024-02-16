@@ -1,5 +1,5 @@
-import { Coords } from "../interface/types";
-import Game from "./game";
+import { Coords } from "../interface/coords";
+import Game from "./game.js";
 
 const START_DIRECTION = 'RIGHT';
 const START_LENGTH = 4;

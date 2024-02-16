@@ -1,0 +1,32 @@
+{
+  "name": "snake-multiplayer-server",
+  "version": "1.0.1",
+  "type": "module",
+  "description": "Server part of simple snake game with multiplayer support",
+  "main": "server/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jakhrkal/snake-multiplayer.git"
+  },
+  "keywords": [
+    "game",
+    "snake",
+    "multiplayer"
+  ],
+  "author": "Jakub Hrkal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jakhrkal/snake-multiplayer/issues"
+  },
+  "homepage": "https://github.com/jakhrkal/snake-multiplayer#readme",
+  "dependencies": {
+    "ws": "7.4.3"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.10"
+  }
+}

@@ -1,17 +1,15 @@
-FROM node:14
-
-# Create app directory
-WORKDIR /usr/src/app
-
-# Bundle app source
-COPY . .
-
-RUN npm install && npm install typescript -g
-
+# Build
+FROM node:16 as build
+WORKDIR /home/node/app
+COPY ./server ./server
+COPY ./interface ./interface
+WORKDIR /home/node/app/server
+RUN npm install && npm install -g typescript
 RUN tsc
 
-# Expose the port where server listens
+# Run
+FROM node:16
+WORKDIR /usr/src/app
+COPY --from=build /home/node/app/server/build/server .
 EXPOSE 9000
-
-# Start server
 CMD [ "node", "main.js" ]

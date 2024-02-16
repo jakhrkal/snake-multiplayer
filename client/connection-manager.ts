@@ -1,4 +1,4 @@
-import { MessageType } from "../interface/types";
+import { MessageType } from "../interface/message-type";
 import { Snake } from "./snake";
 
 export class ConnectionManager {
