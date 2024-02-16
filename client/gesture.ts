@@ -1,9 +1,9 @@
-const GestureType = Object.freeze({ "UP": 0, "RIGHT": 1, "DOWN": 2, "LEFT": 3, "TAP": 4 })
+import { GestureType } from "../interface/types.js";
 
 const THRESHOLD_TIME = 500;
 const THRESHOLD_DISTANCE = 50;
 
-class Gesture {
+export class Gesture {
 
     private gestStart: any;
     private gestEnd: any;

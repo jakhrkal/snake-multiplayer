@@ -1,5 +1,5 @@
-import { MessageType } from "../interface/message-type";
-import { Snake } from "./snake";
+import { MessageType } from "../interface/types.js";
+import { Snake } from "./snake.js";
 
 export class ConnectionManager {
 
@@ -20,7 +20,7 @@ export class ConnectionManager {
         });
 
         this.conn.addEventListener('message', event => {
-            console.log('Received message', event.data);
+            // console.log('Received message', event.data);
             this.receive(event.data);
         });
     }
@@ -44,14 +44,12 @@ export class ConnectionManager {
         if (data.type === 'game-created') {
             window.location.hash = data.id;
         } else if (data.type === MessageType.STATE_UPDATE) {
-            console.log('Updating state.');
             this.snake.updateState(data);
         }
     }
 
     send(data) {
         const msg = JSON.stringify(data);
-        console.log('Sending message', msg);
         this.conn?.send(msg);
     }
 }

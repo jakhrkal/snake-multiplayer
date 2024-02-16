@@ -8,6 +8,8 @@ RUN npm install && npm install -g typescript
 RUN tsc
 
 #Run
-FROM nginx:latest
-COPY --from=build /home/node/app/client/build /usr/share/nginx/html/
+FROM nginx:1.25.4
+COPY ./client /usr/share/nginx/html/
+COPY --from=build /home/node/app/client/build/client /usr/share/nginx/html/client
+COPY --from=build /home/node/app/client/build/interface /usr/share/nginx/html/interface
 EXPOSE 80

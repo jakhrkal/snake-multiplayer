@@ -1,5 +1,7 @@
-import { ConnectionManager } from "./connection-manager";
-import { Snake } from "./snake";
+import { GestureType } from "../interface/types.js";
+import { ConnectionManager } from "./connection-manager.js";
+import { Gesture } from "./gesture.js"
+import { Snake } from "./snake.js";
 
 const snake = new Snake(document);
 const connectionManager = new ConnectionManager(snake);
@@ -16,7 +18,7 @@ try {
 }
 
 const gesture = new Gesture(document);
-gesture.listenForGestures(direction => {
+gesture.listenForGestures((direction: GestureType) => {
     switch (direction) {
         case GestureType.UP:
             sendDirection('UP');

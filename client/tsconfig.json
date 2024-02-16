@@ -1,9 +1,19 @@
 {
     "compilerOptions": {
-      "outDir": "./build",
+      "module": "ES2022",
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
       "allowJs": true,
-      "target": "es2022",
-      "moduleResolution":"node"
+      "target": "ES2022",
+      "moduleResolution": "node",
+      "outDir": "build",
+      "baseUrl": ".",
+      "paths": {
+          "*": [
+              "node_modules/*",
+              "."
+          ]
+      }
     },
     "include": ["./**/*", "../interface/**/*"]
   }

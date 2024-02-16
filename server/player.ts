@@ -1,4 +1,4 @@
-import { Coords } from "../interface/coords";
+import { Coords } from "../interface/types.js";
 import Game from "./game.js";
 
 const START_DIRECTION = 'RIGHT';
@@ -66,10 +66,10 @@ export class Player {
     // todo move away
     send(data) {
         const msg = JSON.stringify(data);
-        console.log('Sending message', msg);
+        // console.log('Sending message', msg);
         this.conn.send(msg, function ack(err) {
             if (err) {
-                console.log('Error sending message', msg, err);
+                console.error('Error sending message', msg, err);
             }
         });
     }

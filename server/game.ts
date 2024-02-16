@@ -1,5 +1,4 @@
-import { Coords } from "../interface/coords.js";
-import { MessageType } from "../interface/message-type.js";
+import { Coords, MessageType } from "../interface/types.js";
 import { Player } from "./player.js";
 
 const ARENA_SIZE = 30;
@@ -14,7 +13,7 @@ const WALL_SHAPES = [
     [{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 1, y: 2 }, { x: 2, y: 2 }], // L
 ]
 
-class Game {
+export class Game {
 
     id: any;
     players: Player[] = [];

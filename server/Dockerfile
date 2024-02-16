@@ -10,6 +10,6 @@ RUN tsc
 # Run
 FROM node:16
 WORKDIR /usr/src/app
-COPY --from=build /home/node/app/server/build/server .
+COPY --from=build /home/node/app/server .
 EXPOSE 9000
-CMD [ "node", "main.js" ]
+CMD [ "node", "./build/server/main.js" ]

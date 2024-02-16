@@ -1,9 +1,9 @@
-import pkg from 'ws';
-const { WebSocketServer } = pkg
 import { Player } from './player.js';
-import Game from './game.js';
+import { Game } from './game.js';
+import WebSocket, { WebSocketServer as WSWebSocketServer } from 'ws';
 
-const server = new WebSocketServer({port: 9000});
+const WebSocketServer = WebSocket.Server || WSWebSocketServer;
+const server = new WebSocketServer({ port: 9000 });
 
 const games = new Map;
 
@@ -42,7 +42,7 @@ server.on('connection', conn => {
     const client = createClient(conn);
 
     conn.on('message', msg => {
-        console.log('Message received', msg);
+        // console.log('Message received', msg);
         const data = JSON.parse(msg as any);
 
         if (data.type === 'create-game') {
