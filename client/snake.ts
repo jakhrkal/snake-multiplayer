@@ -14,6 +14,10 @@ export class Snake {
         this.playerColors = new Map();
     }
 
+    updatePlayers(data) {
+        console.log(data);
+    }
+
     updateState(data) {
         data.state.forEach((col, y) => {
             col.forEach((cell, x) => {

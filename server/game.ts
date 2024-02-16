@@ -1,4 +1,4 @@
-import { Coords, MessageType } from "../interface/types.js";
+import { Coords, MessageType, PlayerData } from "../interface/types.js";
 import { Player } from "./player.js";
 
 const ARENA_SIZE = 30;
@@ -17,7 +17,7 @@ export class Game {
 
     id: any;
     players: Player[] = [];
-    
+
     private coins: any[] = [];
     private walls: Coords[] = [];
     private arena = Array.from(Array(ARENA_SIZE), () => new Array(ARENA_SIZE));
@@ -38,19 +38,38 @@ export class Game {
             this.spawnCoin();
             this.updateArena();
             this.broadcastState();
+            this.updatePlayers();
         }, GAME_SPEED);
+    }
+
+    updatePlayers() {
+        this.players.forEach(player => player.send({
+            type: MessageType.UPDATE_PLAYERS,
+            data: {
+                players: this.players.map(player => this.toPlayerData(player))
+            }
+        }));
+    }
+
+    toPlayerData(player: Player): PlayerData {
+        return {
+            id: player.id,
+            body: player.body
+        }
     }
 
     broadcastState() {
         this.players.forEach(player => player.send({
-            type: MessageType.STATE_UPDATE,
-            state: this.arena,
-            scores: this.players.map(player => {
-                return {
-                    id: player.id,
-                    score: player.score
-                }
-            })
+            type: MessageType.UPDATE_ARENA,
+            data: {
+                state: this.arena,
+                scores: this.players.map(player => {
+                    return {
+                        id: player.id,
+                        score: player.score
+                    }
+                })
+            }
         }));
     }
 
@@ -116,7 +135,7 @@ export class Game {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    join(client) {
+    join(client: Player) {
         if (client.session) {
             throw new Error('Client already in session');
         }

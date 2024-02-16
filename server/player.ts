@@ -1,4 +1,4 @@
-import { Coords } from "../interface/types.js";
+import { Coords, Message } from "../interface/types.js";
 import Game from "./game.js";
 
 const START_DIRECTION = 'RIGHT';
@@ -6,17 +6,17 @@ const START_LENGTH = 4;
 
 export class Player {
 
-    id;
+    id: string;
     score = 0;
     body: Coords[] = [];
     coordinates: Coords;
     direction = START_DIRECTION;
     session: Game; 
 
-    private conn ;
+    private conn;
     private length = 0;
 
-    constructor(conn, id) {
+    constructor(conn, id: string) {
         this.conn = conn;
         this.id = id;
 
@@ -64,8 +64,8 @@ export class Player {
     }
 
     // todo move away
-    send(data) {
-        const msg = JSON.stringify(data);
+    send(message: Message) {
+        const msg = JSON.stringify(message);
         // console.log('Sending message', msg);
         this.conn.send(msg, function ack(err) {
             if (err) {

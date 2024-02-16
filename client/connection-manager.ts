@@ -40,11 +40,13 @@ export class ConnectionManager {
     }
 
     receive(msg) {
-        const data = JSON.parse(msg);
-        if (data.type === 'game-created') {
-            window.location.hash = data.id;
-        } else if (data.type === MessageType.STATE_UPDATE) {
-            this.snake.updateState(data);
+        const message = JSON.parse(msg);
+        if (message.type === MessageType.GAME_CREATED) {
+            window.location.hash = message.data.id;
+        } else if (message.type === MessageType.UPDATE_PLAYERS) {
+            this.snake.updatePlayers(message.data);
+        } else if (message.type === MessageType.UPDATE_ARENA) {
+            this.snake.updateState(message.data);
         }
     }
 
