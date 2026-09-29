@@ -1,6 +1,10 @@
-const ARENA_SIZE = 20;
-const MAX_COIN_COUNT = 2;
-const WALL_COUNT = 8;
+import { Coords, MessageType, PlayerData } from "../interface/types.js";
+import { Player } from "./player.js";
+
+const ARENA_SIZE = 30;
+const MAX_COIN_COUNT = 3;
+const WALL_COUNT = 15;
+const GAME_SPEED = 400;
 const WALL_SHAPES = [
     [{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }], // I
     [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }], // _
@@ -9,7 +13,16 @@ const WALL_SHAPES = [
     [{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 1, y: 2 }, { x: 2, y: 2 }], // L
 ]
 
-class Game {
+export class Game {
+
+    id: any;
+    players: Player[] = [];
+
+    private coins: any[] = [];
+    private walls: Coords[] = [];
+    private arena = Array.from(Array(ARENA_SIZE), () => new Array(ARENA_SIZE));
+    private coinCount = 0;
+
     constructor(id) {
         this.id = id;
         this.players = [];
@@ -25,19 +38,38 @@ class Game {
             this.spawnCoin();
             this.updateArena();
             this.broadcastState();
-        }, 400);
+            this.updatePlayers();
+        }, GAME_SPEED);
+    }
+
+    updatePlayers() {
+        this.players.forEach(player => player.send({
+            type: MessageType.UPDATE_PLAYERS,
+            data: {
+                players: this.players.map(player => this.toPlayerData(player))
+            }
+        }));
+    }
+
+    toPlayerData(player: Player): PlayerData {
+        return {
+            id: player.id,
+            body: player.body
+        }
     }
 
     broadcastState() {
         this.players.forEach(player => player.send({
-            type: 'state-update',
-            state: this.arena,
-            scores: this.players.map(player => {
-                return {
-                    id: player.id,
-                    score: player.score
-                }
-            })
+            type: MessageType.UPDATE_ARENA,
+            data: {
+                state: this.arena,
+                scores: this.players.map(player => {
+                    return {
+                        id: player.id,
+                        score: player.score
+                    }
+                })
+            }
         }));
     }
 
@@ -103,7 +135,7 @@ class Game {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    join(client) {
+    join(client: Player) {
         if (client.session) {
             throw new Error('Client already in session');
         }
@@ -157,4 +189,4 @@ class Game {
     }
 }
 
-module.exports = Game;
+export default Game;

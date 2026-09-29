@@ -1,5 +1,12 @@
+import { GestureType } from "../interface/types.js";
+import { ConnectionManager } from "./connection-manager.js";
+import { Gesture } from "./gesture.js"
+import { Snake } from "./snake.js";
+
 const snake = new Snake(document);
 const connectionManager = new ConnectionManager(snake);
+let gameSize = 30;
+
 try {
     // For local development/running on the same server
     connectionManager.connect('ws://' + window.location.hostname + ':9000');
@@ -11,7 +18,7 @@ try {
 }
 
 const gesture = new Gesture(document);
-gesture.listenForGestures(direction => {
+gesture.listenForGestures((direction: GestureType) => {
     switch (direction) {
         case GestureType.UP:
             sendDirection('UP');
@@ -63,13 +70,21 @@ function sendDirection(direction) {
     });
 }
 
+// todo set game size dynamically on game init
+function setGameSize(size) {
+    gameSize = size;
+    resizeCanvas();
+}
 
 function resizeCanvas() {
-    canvas = document.getElementById('game');
-    context = canvas.getContext('2d');
-    const scale = Math.floor(Math.min(window.innerWidth, window.innerHeight) * 0.95 / 20);
-    canvas.width = canvas.height = scale * 20;
-    context.font = "1px Comic Sans MS";
-    context.textBaseline = "top";
-    context.scale(scale, scale);
+    console.log('Game size:', gameSize);
+    const canvas = <HTMLCanvasElement> document.getElementById('game');
+    const context = canvas.getContext('2d');
+    if (canvas && context) {
+        const scale = Math.floor(Math.min(window.innerWidth, window.innerHeight) * 0.95 / gameSize);
+        canvas.width = canvas.height = scale * gameSize;
+        context.font = "1px Comic Sans MS";
+        context.textBaseline = "top";
+        context.scale(scale, scale);
+    }
   }

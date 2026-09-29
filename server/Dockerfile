@@ -1,16 +1,15 @@
-FROM node:8
+# Build
+FROM node:16 as build
+WORKDIR /home/node/app
+COPY ./server ./server
+COPY ./interface ./interface
+WORKDIR /home/node/app/server
+RUN npm install && npm install -g typescript
+RUN tsc
 
-# Create app directory
+# Run
+FROM node:16
 WORKDIR /usr/src/app
-
-# Install websocket dependency
-RUN npm install ws
-
-# Bundle app source
-COPY . .
-
-# Expose the port where server listens
+COPY --from=build /home/node/app/server .
 EXPOSE 9000
-
-# Start server
-CMD [ "node", "main.js" ]
+CMD [ "node", "./build/server/main.js" ]

@@ -1,6 +1,12 @@
-class ConnectionManager {
+import { MessageType } from "../interface/types.js";
+import { Snake } from "./snake.js";
 
-    constructor(snake) {
+export class ConnectionManager {
+
+    private conn: WebSocket | null;
+    private snake: Snake;
+
+    constructor(snake: Snake) {
         this.conn = null;
         this.snake = snake;
     }
@@ -14,7 +20,7 @@ class ConnectionManager {
         });
 
         this.conn.addEventListener('message', event => {
-            console.log('Received message', event.data);
+            // console.log('Received message', event.data);
             this.receive(event.data);
         });
     }
@@ -34,18 +40,18 @@ class ConnectionManager {
     }
 
     receive(msg) {
-        const data = JSON.parse(msg);
-        if (data.type === 'game-created') {
-            window.location.hash = data.id;
-        } else if (data.type === 'state-update') {
-            console.log('Updating state.')
-            this.snake.updateState(data);
+        const message = JSON.parse(msg);
+        if (message.type === MessageType.GAME_CREATED) {
+            window.location.hash = message.data.id;
+        } else if (message.type === MessageType.UPDATE_PLAYERS) {
+            this.snake.updatePlayers(message.data);
+        } else if (message.type === MessageType.UPDATE_ARENA) {
+            this.snake.updateState(message.data);
         }
     }
 
     send(data) {
         const msg = JSON.stringify(data);
-        console.log('Sending message', msg);
-        this.conn.send(msg);
+        this.conn?.send(msg);
     }
 }

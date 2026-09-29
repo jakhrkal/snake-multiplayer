@@ -9,9 +9,13 @@ ports:
     onOpen: open-browser
 
 # List the start up tasks. You can start them in parallel in multiple terminals. See https://www.gitpod.io/docs/config-start-tasks/
+# TODO update
 tasks:
-  - init: npm install # runs during prebuild
-  - command: npm run start-server
-    name: Node Server
-  - command: npm run start-client
-    name: Http Client
+  - name: Node Server
+    before: cd ./server
+    init: npm install
+    command: npm start
+  - name: HTTP Client
+    before: cd ./client
+    init: npm install
+    command: npm start

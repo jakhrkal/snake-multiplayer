@@ -1,13 +1,21 @@
-const COLORS = ['Chocolate', 'CornflowerBlue', 'Chartreuse', 'Purple', 'DarkRed', 'DarkBlue', 'DarkGreen', 'Crimson',]
+const COLORS = ['CornflowerBlue', 'LimeGreen', 'Violet', 'LemonChiffon', 'DarkBlue', 'DarkGreen', 'DarkViolet', 'DarkKhaki',]
 
-class Snake {
+export class Snake {
+
+    private document: any
+    private canvas: any
+    private context: any
+    private playerColors: any
 
     constructor(document) {
         this.document = document;
         this.canvas = this.document.getElementById('game');
         this.context = this.canvas.getContext('2d');
-
         this.playerColors = new Map();
+    }
+
+    updatePlayers(data) {
+        console.log(data);
     }
 
     updateState(data) {
@@ -21,10 +29,10 @@ class Snake {
                             this.context.fillStyle = this.colorFromId(cell.id);
                             break;
                         case 'COIN':
-                            this.context.fillStyle = 'gold'
+                            this.context.fillStyle = 'gold';
                             break;
                         case 'WALL':
-                            this.context.fillStyle = 'red'
+                            this.context.fillStyle = 'DarkRed';
                             break;
                         default:
                             console.warn('Unknown cell.', cell);

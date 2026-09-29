@@ -1,15 +1,27 @@
+import { Coords, Message } from "../interface/types.js";
+import Game from "./game.js";
+
 const START_DIRECTION = 'RIGHT';
 const START_LENGTH = 4;
 
-class Player {
+export class Player {
 
-    constructor(conn, id) {
+    id: string;
+    score = 0;
+    body: Coords[] = [];
+    coordinates: Coords;
+    direction = START_DIRECTION;
+    session: Game; 
+
+    private conn;
+    private length = 0;
+
+    constructor(conn, id: string) {
         this.conn = conn;
         this.id = id;
-        this.session = null;
 
-        this.length = null;
-        this.direction = null;
+        this.length = 0;
+        this.direction = START_DIRECTION;
         this.body = [];
         this.score = 0;
     }
@@ -52,12 +64,12 @@ class Player {
     }
 
     // todo move away
-    send(data) {
-        const msg = JSON.stringify(data);
-        console.log('Sending message', msg);
+    send(message: Message) {
+        const msg = JSON.stringify(message);
+        // console.log('Sending message', msg);
         this.conn.send(msg, function ack(err) {
             if (err) {
-                console.log('Error sending message', msg, err);
+                console.error('Error sending message', msg, err);
             }
         });
     }
@@ -69,5 +81,3 @@ class Player {
         }
     }
 }
-
-module.exports = Player;

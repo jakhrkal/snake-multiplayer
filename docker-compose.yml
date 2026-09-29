@@ -1,13 +1,17 @@
 version: "2"
 services:
   server:
-    build: ./server
+    build:
+      context: ./
+      dockerfile: ./server/Dockerfile
     image: jakhrkal/snake-server
     restart: always
     ports:
       - "9000:9000"
   webapp:
-    build: ./client
+    build:
+      context: ./
+      dockerfile: ./client/Dockerfile
     image: jakhrkal/snake-client
     restart: always
     ports:
