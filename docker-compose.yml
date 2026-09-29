@@ -3,11 +3,13 @@ services:
   server:
     build: ./server
     image: jakhrkal/snake-server
+    restart: always
     ports:
       - "9000:9000"
   webapp:
     build: ./client
     image: jakhrkal/snake-client
+    restart: always
     ports:
       - "8080:80"
     depends_on: 
